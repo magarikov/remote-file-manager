@@ -1,0 +1,88 @@
+[
+    uuid(F488F148-7CA4-45F0-A7E7-7B75FD51202B),
+    version(1.0)
+]
+
+interface hello
+{
+
+    void Upload(
+        [in] handle_t hBinding,
+        [in, string] char* filename,
+        [in, size_is(len)] byte* data,
+        [in] unsigned long len
+    );
+
+
+    long long get_file_len(
+        [in] handle_t hBinding,
+        [in, string] char* filename
+    );
+
+    /*
+     * Download:
+     *  - hBinding : явный RPC binding handle
+     *  - filename : UNC-путь в ANSI (char*)
+     *  - data     : буфер, выделенный клиентом; сервер запишет не более len байт
+     *  - len      : размер переданного буфера (in)
+     *
+     * Примечание: если нужно знать, сколько реально вернул сервер — добавь
+     * параметр [out] unsigned long* actualSize.
+     */
+    void Download(
+        [in] handle_t hBinding,
+        [in, string] char* filename,
+        [out, size_is(len)] byte* data,
+        [in] unsigned long len
+    );
+
+    void Shutdown([in] handle_t h1);
+
+}
+/*
+    interface FileTransfer
+{
+    
+     * Upload:
+     *  - hBinding     : явный RPC binding handle (handle_t), передаётся клиентом
+     *  - filename     : UNC-путь (unicode строка)
+     *  - data         : входной массив байт (чанк)
+     *  - dataSize     : размер переданных данных
+     
+    void Upload(
+        [in] handle_t hBinding,
+        [in, string] wchar_t* filename,
+        [in, size_is(len)] byte* data,
+        [in] unsigned int len // MIDL просит чтобы значения были были unsigned в size_is
+    );
+
+    
+     * Download:
+     *  - hBinding     : явный binding handle
+     *  - filename     : UNC-путь
+     *  - data         : буфер, выделенный клиентом (out)
+     *  - lastChunk    : флаг, последний это чанk или нет (out)
+     *
+     * Замечание: мы *не* просим сервер выделять память для data — это избегает
+     * проблем с выражениями size_is(*) и с MIDL2059.
+     
+    void Download(
+        [in] handle_t hBinding,
+        [in, string] wchar_t* filename,
+        [out, size_is(len)] byte* data,
+        [in] unsigned int len
+    );
+
+    
+     * DeleteFile:
+     *  - hBinding : явный binding handle
+     *  - filename : UNC-путь
+     
+    
+    void Delete(
+        [in] handle_t hBinding,
+        [in, string] wchar_t* filename
+    );
+    
+}
+*/
